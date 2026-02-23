@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Johnlene Lorenz R. Nael - Portfolio</title>
+    <script>if(localStorage.getItem('darkMode')==='true'){document.documentElement.classList.add('dark-mode');}</script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+    /* ===== TESTIMONIALS SECTION ===== */
+    .testimonials { background: var(--off-white); }
+
+    .testimonials-subtitle {
+        text-align: center;
+        color: var(--light-gray);
+        font-size: 16px;
+        margin-top: -40px;
+        margin-bottom: 60px;
+    }
+
+    /* ── Cards Grid ── */
+    .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 30px;
+        margin-bottom: 70px;
+    }
+
+    .t-card {
+        background: var(--white);
+        border-radius: 15px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: var(--transition);
+        animation: tFadeUp 0.5s ease both;
+        border: 2px solid transparent;
+    }
+    .t-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px var(--shadow);
+        border-color: var(--hot-pink);
+    }
+    .t-card::before {
+        content: '"';
+        font-size: 120px;
+        color: var(--hot-pink);
+        opacity: 0.06;
+        position: absolute;
+        top: -20px; left: 14px;
+        line-height: 1;
+        pointer-events: none;
+        font-family: Georgia, serif;
+    }
+
+    .t-card-stars { margin-bottom: 14px; font-size: 16px; letter-spacing: 2px; }
+    .t-star-filled { color: #f59e0b; }
+    .t-star-empty  { color: #ddd; }
+
+    .t-card-text {
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--light-gray);
+        font-style: italic;
+        margin-bottom: 22px;
+    }
+
+    .t-card-author { display: flex; align-items: center; gap: 12px; }
+
+    .t-avatar {
+        width: 44px; height: 44px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 17px; color: #fff; flex-shrink: 0;
+        border: 2px solid var(--hot-pink);
+    }
+
+    .t-author-name { font-weight: 700; font-size: 15px; color: var(--dark-gray); }
+    .t-author-role { font-size: 12px; color: var(--light-gray); margin-top: 2px; }
+    .t-card-date   { font-size: 11px; color: #bbb; text-align: right; margin-top: 16px; }
+
+    .t-empty-state {
+        grid-column: 1 / -1; text-align: center;
+        padding: 60px 20px; color: var(--light-gray);
+    }
+    .t-empty-state .t-empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.35; }
+
+    /* Admin remove button on cards */
+    .t-delete-btn {
+        display: none;
+        position: absolute; top: 12px; right: 14px;
+        background: rgba(255,20,147,0.08); color: var(--hot-pink);
+        border: 1px solid var(--hot-pink); border-radius: 20px;
+        padding: 3px 11px; font-size: 11px; font-weight: 600;
+        cursor: pointer; transition: var(--transition);
+    }
+    .t-delete-btn:hover { background: var(--hot-pink); color: #fff; }
+    .admin-active .t-card .t-delete-btn { display: inline-block; }
+
+    /* ── Submit Form ── */
+    .testimonial-form-wrap {
+        max-width: 620px;
+        margin: 0 auto 60px;
+        background: var(--white);
+        border-radius: 15px;
+        padding: 42px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        border: 2px solid transparent;
+        transition: var(--transition);
+    }
+    .testimonial-form-wrap:hover {
+        border-color: var(--hot-pink);
+        box-shadow: 0 10px 30px var(--shadow);
+    }
+
+    .t-form-title {
+        font-size: 24px; font-weight: 700;
+        color: var(--dark-gray); margin-bottom: 6px;
+    }
+    .t-form-title span { color: var(--hot-pink); }
+    .t-form-sub { font-size: 14px; color: var(--light-gray); margin-bottom: 28px; }
+
+    .t-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 520px) { .t-form-row { grid-template-columns: 1fr; } }
+
+    .t-form-group { margin-bottom: 16px; }
+    .t-form-group label {
+        display: block; font-size: 11px; text-transform: uppercase;
+        letter-spacing: 1px; color: var(--light-gray);
+        font-weight: 600; margin-bottom: 7px;
+    }
+    .t-form-group input, .t-form-group textarea {
+        width: 100%;
+        background: var(--off-white);
+        border: 1.5px solid #eee;
+        border-radius: 10px; padding: 12px 15px;
+        font-size: 14px; color: var(--dark-gray);
+        outline: none; font-family: inherit;
+        transition: border-color 0.25s, box-shadow 0.25s; resize: none;
+    }
+    .t-form-group input:focus, .t-form-group textarea:focus {
+        border-color: var(--hot-pink);
+        background: var(--white);
+        box-shadow: 0 0 0 3px var(--shadow);
+    }
+
+    /* Star rating picker */
+    .star-picker-wrap { display: flex; gap: 4px; flex-direction: row-reverse; justify-content: flex-end; }
+    .star-picker-wrap input { display: none; }
+    .star-picker-wrap label {
+        font-size: 28px; cursor: pointer; color: #ddd;
+        transition: color 0.15s; margin-bottom: 0; text-transform: none; letter-spacing: 0;
+    }
+    .star-picker-wrap label:hover,
+    .star-picker-wrap label:hover ~ label,
+    .star-picker-wrap input:checked ~ label { color: #f59e0b; }
+
+    .t-submit-btn {
+        width: 100%; padding: 14px;
+        background: var(--hot-pink);
+        color: #fff; border: none; border-radius: 50px;
+        font-size: 16px; font-weight: 700; font-family: inherit;
+        cursor: pointer; margin-top: 6px;
+        box-shadow: 0 5px 15px var(--shadow);
+        transition: var(--transition);
+    }
+    .t-submit-btn:hover { background: var(--light-pink); transform: translateY(-2px); box-shadow: 0 8px 20px var(--shadow); }
+    .t-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .t-form-notice { font-size: 12px; color: #bbb; text-align: center; margin-top: 12px; }
+
+    .t-form-toast { display: none; margin-top: 16px; padding: 12px 18px; border-radius: 10px; font-size: 14px; text-align: center; font-weight: 600; }
+    .t-form-toast.success { display:block; background:#f0fdf4; color:#059669; border:1.5px solid #6ee7b7; }
+    .t-form-toast.error   { display:block; background:#fff0f5; color:var(--hot-pink); border:1.5px solid var(--light-pink); }
+
+    /* ── Admin Panel ── */
+    .t-admin-row { text-align: center; margin-bottom: 22px; }
+    .t-admin-toggle-btn {
+        background: var(--white);
+        border: 2px solid var(--hot-pink);
+        color: var(--hot-pink); padding: 8px 24px; border-radius: 50px;
+        font-size: 13px; font-weight: 600; font-family: inherit;
+        cursor: pointer; transition: var(--transition);
+    }
+    .t-admin-toggle-btn:hover { background: var(--hot-pink); color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px var(--shadow); }
+
+    .t-admin-panel {
+        display: none; max-width: 740px; margin: 0 auto;
+        background: var(--white);
+        border: 2px solid var(--hot-pink);
+        border-radius: 15px; padding: 36px;
+        box-shadow: 0 5px 20px var(--shadow);
+    }
+    .t-admin-panel.open { display: block; animation: tFadeUp 0.3s ease; }
+
+    .t-admin-panel-header {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+    }
+    .t-admin-panel-title { font-size: 20px; font-weight: 700; color: var(--dark-gray); }
+
+    .t-badge {
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--hot-pink); color: #fff; font-size: 11px; font-weight: 700;
+        border-radius: 100px; min-width: 22px; height: 22px; padding: 0 7px; margin-left: 7px;
+    }
+
+    .t-pw-row { display: flex; gap: 8px; align-items: center; }
+    .t-pw-input {
+        background: var(--off-white);
+        border: 1.5px solid #eee; border-radius: 8px;
+        padding: 9px 14px; font-size: 13px; color: var(--dark-gray);
+        outline: none; font-family: inherit; width: 150px; transition: border-color 0.2s;
+    }
+    .t-pw-input:focus { border-color: var(--hot-pink); }
+
+    .t-unlock-btn {
+        background: var(--hot-pink); color: #fff; border: none; border-radius: 8px;
+        padding: 9px 18px; font-size: 13px; font-weight: 700; font-family: inherit;
+        cursor: pointer; transition: var(--transition);
+    }
+    .t-unlock-btn:hover { background: var(--light-pink); }
+
+    .t-queue { display: none; }
+    .t-queue.unlocked { display: block; }
+
+    .t-pending-card {
+        background: var(--off-white);
+        border: 1.5px solid #eee;
+        border-radius: 12px; padding: 20px; margin-bottom: 14px;
+        animation: tFadeUp 0.3s ease; transition: border-color 0.2s;
+    }
+    .t-pending-card:hover { border-color: var(--light-pink); }
+
+    .t-pending-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap:wrap; gap:8px; }
+    .t-pending-name { font-weight: 700; font-size: 15px; color: var(--dark-gray); }
+    .t-pending-role { font-size: 12px; color: var(--light-gray); margin-top: 2px; }
+    .t-pending-stars { font-size: 14px; color: #f59e0b; }
+    .t-pending-text  { font-size: 14px; color: var(--light-gray); font-style: italic; line-height: 1.65; }
+
+    .t-pending-actions { display: flex; gap: 10px; margin-top: 14px; }
+    .t-approve-btn, .t-reject-btn {
+        padding: 7px 20px; border-radius: 50px; font-size: 13px; font-weight: 700;
+        font-family: inherit; cursor: pointer; border: none; transition: var(--transition);
+    }
+    .t-approve-btn { background: #f0fdf4; color: #059669; border: 1.5px solid #6ee7b7; }
+    .t-approve-btn:hover { background: #059669; color: #fff; transform: translateY(-1px); }
+    .t-reject-btn  { background: #fff0f5; color: var(--hot-pink); border: 1.5px solid var(--light-pink); }
+    .t-reject-btn:hover  { background: var(--hot-pink); color: #fff; transform: translateY(-1px); }
+
+    .t-admin-empty { text-align: center; padding: 40px; color: var(--light-gray); font-size: 15px; }
+
+    .t-admin-banner {
+        display: none; text-align: center; font-size: 11px;
+        letter-spacing: 2px; text-transform: uppercase;
+        color: var(--hot-pink); margin-bottom: 20px; font-weight: 700;
+    }
+    .t-admin-banner.show { display: block; }
+
+    @keyframes tFadeUp {
+        from { opacity: 0; transform: translateY(18px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Field Validation Styles ── */
+    .t-form-group input.t-invalid,
+    .t-form-group textarea.t-invalid {
+        border-color: var(--hot-pink) !important;
+        background: rgba(255,20,147,0.04) !important;
+        box-shadow: 0 0 0 3px rgba(255,20,147,0.1) !important;
+        animation: tShake 0.35s ease;
+    }
+    .t-field-error {
+        display: none;
+        font-size: 11px;
+        color: var(--hot-pink);
+        font-weight: 600;
+        margin-top: 5px;
+        padding-left: 2px;
+    }
+    .t-field-error.show { display: block; }
+
+    .t-form-group input.t-valid,
+    .t-form-group textarea.t-valid {
+        border-color: #10B981 !important;
+    }
+
+    /* contact form field errors too */
+    .contact-form-inner input.cf-invalid,
+    .contact-form-inner textarea.cf-invalid {
+        border-color: #FF1493 !important;
+        background: rgba(255,20,147,0.04) !important;
+        box-shadow: 0 0 0 3px rgba(255,20,147,0.1) !important;
+        animation: tShake 0.35s ease;
+    }
+    .cf-field-error {
+        display: none;
+        font-size: 11px;
+        color: #FF1493;
+        font-weight: 600;
+        margin-top: -8px;
+        margin-bottom: 4px;
+        padding-left: 2px;
+    }
+    .cf-field-error.show { display: block; }
+
+    @keyframes tShake {
+        0%,100% { transform: translateX(0); }
+        20%      { transform: translateX(-6px); }
+        40%      { transform: translateX(6px); }
+        60%      { transform: translateX(-4px); }
+        80%      { transform: translateX(4px); }
+    }
+
+    /* loading spinner on button */
+    .t-submit-btn.loading,
+    .btn-send.loading {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+
+    /* ── Resume Download Button ── */
+    .btn-resume {
+        background: transparent;
+        color: var(--hot-pink);
+        border: 2px dashed var(--hot-pink);
+        padding: 15px 35px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-resume:hover {
+        background: var(--hot-pink);
+        color: #fff;
+        border-style: solid;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px var(--shadow);
+    }
+    .btn-resume:hover svg { stroke: #fff; }
+
+    body.dark-mode .btn-resume {
+        color: var(--hot-pink);
+        border-color: var(--hot-pink);
+        background: transparent;
+    }
+    body.dark-mode .btn-resume:hover {
+        background: var(--hot-pink);
+        color: #fff;
+    }
+
+    /* ── Dark Mode ── */
+    body.dark-mode .testimonials { background: #16213e; }
+    body.dark-mode .testimonials-subtitle { color: #a0a0b5; }
+    body.dark-mode .t-card { background: #1a1a2e; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+    body.dark-mode .t-card:hover { box-shadow: 0 10px 30px var(--shadow); }
+    body.dark-mode .t-card-text { color: #a0a0b5; }
+    body.dark-mode .t-author-name { color: #e0e0e0; }
+    body.dark-mode .t-author-role { color: #8888aa; }
+    body.dark-mode .t-star-empty { color: #333; }
+    body.dark-mode .t-card-date { color: #555; }
+    body.dark-mode .t-empty-state { color: #8888aa; }
+
+    body.dark-mode .testimonial-form-wrap { background: #1a1a2e; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+    body.dark-mode .testimonial-form-wrap:hover { box-shadow: 0 10px 30px var(--shadow); }
+    body.dark-mode .t-form-title { color: #e0e0e0; }
+    body.dark-mode .t-form-sub { color: #8888aa; }
+    body.dark-mode .t-form-group label { color: #8888aa; }
+    body.dark-mode .t-form-group input,
+    body.dark-mode .t-form-group textarea {
+        background: #16213e; border-color: #2a2a4e;
+        color: #e0e0e0;
+    }
+    body.dark-mode .t-form-group input:focus,
+    body.dark-mode .t-form-group textarea:focus { background: #1a1a2e; }
+    body.dark-mode .star-picker-wrap label { color: #333; }
+    body.dark-mode .t-form-notice { color: #555; }
+    body.dark-mode .t-form-toast.success { background: #0a1f14; }
+    body.dark-mode .t-form-toast.error   { background: #2a1a3e; }
+
+    body.dark-mode .t-admin-toggle-btn { background: #1a1a2e; }
+    body.dark-mode .t-admin-panel { background: #1a1a2e; box-shadow: 0 5px 20px rgba(0,0,0,0.4); }
+    body.dark-mode .t-admin-panel-title { color: #e0e0e0; }
+    body.dark-mode .t-pw-input { background: #16213e; border-color: #2a2a4e; color: #e0e0e0; }
+    body.dark-mode .t-pending-card { background: #16213e; border-color: #2a2a4e; }
+    body.dark-mode .t-pending-card:hover { border-color: var(--hot-pink); }
+    body.dark-mode .t-pending-name { color: #e0e0e0; }
+    body.dark-mode .t-pending-role { color: #8888aa; }
+    body.dark-mode .t-pending-text { color: #a0a0b5; }
+    body.dark-mode .t-admin-empty { color: #8888aa; }
+    body.dark-mode .t-admin-banner { color: var(--hot-pink); }
+    body.dark-mode .t-approve-btn { background: #0a1f14; }
+    body.dark-mode .t-reject-btn  { background: #2a1a3e; }
+    body.dark-mode .t-delete-btn  { background: rgba(255,20,147,0.08); }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">JLN</div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#credentials" class="nav-link">Credentials</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="designs.html" class="nav-link">Designs</a></li>
+                <li><a href="#testimonials" class="nav-link">Testimonials</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <span class="toggle-label-light">Dark</span>
+                <span class="toggle-label-dark">Light</span>
+            </button>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="fade-in">Hi, I'm <span class="highlight">Johnlene Lorenz R. Nael</span></h1>
+                    <p class="fade-in delay-1">UI/UX Designer</p>
+                    <p class="fade-in delay-1">Designing meaningful digital experiences through creativity and code.</p>
+                    <div class="quote-container fade-in delay-2">
+                        <p id="quote-text">Loading quote...</p>
+                        <span id="quote-author"></span>
+                    </div>
+                    <div class="hero-buttons fade-in delay-2">
+                        <a href="#projects" class="btn btn-primary">View My Work</a>
+                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                        <a href="resume.pdf" download="Johnlene_Lorenz_Nael_Resume.pdf" class="btn btn-resume">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:7px;margin-top:-2px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download CV
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image fade-in delay-3">
+                    <div class="image-container">
+                        <img src="img/profile.png" alt="Johnlene Lorenz R. Nael">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator"><span></span></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>I'm Johnlene Lorenz R. Nael. I spent years unsure of where I was going, dreaming of different paths, until I realized I had always been designing in my own quiet way. From coloring pages to arranging digital layouts, creating has always felt natural to me.</p>
+                    <p>I may not paint on canvas, but I design experiences such as focusing on colors, structure, and making technology feel simple and human. I'm still learning, still exploring, and growing through every project, one design at a time.</p>
+                    <div class="about-buttons">
+                        <a href="academic.html" class="about-btn"><span class="btn-text">Academic Background</span></a>
+                        <a href="designs.html" class="about-btn"><span class="btn-text">Designs & Pubmats</span></a>
+                        <a href="awards.html" class="about-btn"><span class="btn-text">Awards & Achievements</span></a>
+                        <a href="organizations.html" class="about-btn"><span class="btn-text">Organizations</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3>Web Development</h3>
+                    <p>HTML, CSS, JavaScript</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🎨</div>
+                    <h3>UI/UX Design</h3>
+                    <p>Figma</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">📱</div>
+                    <h3>Database Management</h3>
+                    <p>MySQL, database design, CRUD operations</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Problem Solving & Troubleshooting</h3>
+                    <p>Analyzing issues, fixing bugs, basic system troubleshooting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credentials Section -->
+    <section id="credentials" class="credentials">
+        <div class="container">
+            <h2 class="section-title">Professional Credentials</h2>
+            <div class="credentials-grid">
+                <div class="credential-card" onclick="openModal('civilservice')">
+                    <div class="credential-icon">📜</div>
+                    <h3>Civil Service Examination</h3>
+                    <p class="credential-level">Professional Level</p>
+                    <p class="credential-rating">Rating: <strong>85.52%</strong></p>
+                    <p class="credential-date">August 10, 2025</p>
+                    <span class="view-details">Click to view details</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Civil Service Modal -->
+    <div id="civilservice" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('civilservice')">&times;</span>
+            <div class="modal-body">
+                <div class="modal-text">
+                    <h3>Civil Service Examination - Professional Level</h3>
+                    <p class="credential-rating" style="font-size: 24px; margin: 15px 0;">Rating: <strong>85.52%</strong></p>
+                    <p>Passed the Civil Service Examination – Professional Level on August 10, 2025, qualifying for government positions in the Philippines.</p>
+                    <ul class="credential-highlights">
+                        <li><strong>Date:</strong> August 10, 2025</li>
+                        <li><strong>Location:</strong> Daet, Camarines Norte | Region 5</li>
+                        <li>Qualifies for appointment to various government positions in the Philippines</li>
+                        <li>Demonstrates competency in civil service examinations</li>
+                        <li>Proficiency in verbal ability, numerical ability, and reasoning</li>
+                        <li>Strong analytical and problem-solving skills</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card" onclick="openModal('kwartrack')">
+                    <div class="project-image">
+                        <img src="img/kwar.png" alt="KwarTrack">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>KwarTrack System</h3>
+                        <p>A financial management system to track expenses, income, and budgets efficiently.</p>
+                        <div class="project-tags"><span>Java</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('kwartracktwo')">
+                    <div class="project-image">
+                        <img src="img/kwar2.png" alt="KwarTrack">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>KwarTrack: A Financial Management System For Student Governments</h3>
+                        <p>The KwarTrack System is intended to facilitate the management of student fees and fines in the College of Computing and Multimedia Studies (CCMS).</p>
+                        <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MySQL</span><span>PHP</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('eden')">
+                    <div class="project-image">
+                        <img src="img/eden.png" alt="eden">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Edenric's Food and Products Website</h3>
+                        <p>The Edenric's Food Products Website is a user-friendly platform designed to promote the brand and showcase its food products.</p>
+                        <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MySQL</span><span>PHP</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('portfolio')">
+                    <div class="project-image">
+                        <img src="img/web.png" alt="Portfolio Website">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Portfolio Website</h3>
+                        <p>A creative portfolio showcasing design work with smooth animations and interactive elements.</p>
+                        <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('portfolio')">
+                    <div class="project-image">
+                        <img src="img/web2.png" alt="Portfolio Website">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Portfolio Website v2</h3>
+                        <p>A visually engaging portfolio that highlights design work through smooth animations and interactive elements.</p>
+                        <div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('parkners')">
+                    <div class="project-image">
+                        <img src="img/parkners.png" alt="Parkners">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Parkners</h3>
+                        <p>An app designed to simplify parking with real-time availability and booking features.</p>
+                        <div class="project-tags"><span>Java</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('monkey')">
+                    <div class="project-image">
+                        <img src="img/monkey.png" alt="Monkey Game">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Monkey</h3>
+                        <p>A fun interactive game featuring challenges and rewards, developed for entertainment.</p>
+                        <div class="project-tags"><span>Java</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('lto')">
+                    <div class="project-image">
+                        <img src="img/LTO.png" alt="LTO Queue">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>LTO Queue</h3>
+                        <p>A system to manage and streamline vehicle registration queues at LTO offices.</p>
+                        <div class="project-tags"><span>Java</span></div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="openModal('filemanager')">
+                    <div class="project-image">
+                        <img src="img/file.png" alt="File Manager">
+                        <div class="project-overlay"><span class="project-link">View Project</span></div>
+                    </div>
+                    <div class="project-info">
+                        <h3>File Manager</h3>
+                        <p>An intuitive interface to organize, preview, and manage files and folders efficiently.</p>
+                        <div class="project-tags"><span>Java</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TESTIMONIALS SECTION                                   -->
+    <!-- ===================================================== -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Testimonials</h2>
+            <p class="testimonials-subtitle">Kind words from clients, classmates, and collaborators.</p>
+
+            <!-- Admin active indicator -->
+            <p class="t-admin-banner" id="tAdminBanner">🔐 Admin Mode Active — hover cards to remove them</p>
+
+            <!-- Approved testimonials display -->
+            <div class="testimonials-grid" id="tGrid">
+                <div class="t-empty-state">
+                    <div class="t-empty-icon">💬</div>
+                    <p>No testimonials yet — be the first to leave one!</p>
+                </div>
+            </div>
+
+            <!-- Submit form -->
+            <div class="testimonial-form-wrap">
+                <h3 class="t-form-title">Leave a Testimonial</h3>
+                <p class="t-form-sub">Your message will appear after a quick review. Thank you! 🙏</p>
+                <form id="tForm" autocomplete="off">
+                    <div class="t-form-row">
+                        <div class="t-form-group">
+                            <label>Your Name *</label>
+                            <input type="text" id="tName" placeholder="e.g. Maria Santos" maxlength="60">
+                            <span class="t-field-error" id="tNameErr">Please enter your name (min. 2 characters)</span>
+                        </div>
+                        <div class="t-form-group">
+                            <label>Role / Relationship *</label>
+                            <input type="text" id="tRole" placeholder="e.g. Classmate, Client" maxlength="60">
+                            <span class="t-field-error" id="tRoleErr">Please enter your role or relationship</span>
+                        </div>
+                    </div>
+                    <div class="t-form-group">
+                        <label>Your Message * <span id="tMsgCount" style="font-weight:400;text-transform:none;letter-spacing:0;float:right">0 / 400</span></label>
+                        <textarea id="tMessage" rows="4" placeholder="Share your experience working with Johnlene..." maxlength="400"></textarea>
+                        <span class="t-field-error" id="tMsgErr">Please write a message (min. 20 characters)</span>
+                    </div>
+                    <div class="t-form-group">
+                        <label>Rating <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+                        <div class="star-picker-wrap">
+                            <input type="radio" name="tRating" id="ts5" value="5"><label for="ts5">★</label>
+                            <input type="radio" name="tRating" id="ts4" value="4"><label for="ts4">★</label>
+                            <input type="radio" name="tRating" id="ts3" value="3"><label for="ts3">★</label>
+                            <input type="radio" name="tRating" id="ts2" value="2"><label for="ts2">★</label>
+                            <input type="radio" name="tRating" id="ts1" value="1"><label for="ts1">★</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="t-submit-btn" id="tSubmitBtn">Submit Testimonial</button>
+                    <p class="t-form-notice">⏳ Submissions go through a quick review before appearing publicly.</p>
+                    <div class="t-form-toast" id="tFormToast"></div>
+                </form>
+            </div>
+
+            <!-- Admin panel toggle -->
+            <div class="t-admin-row">
+                <button class="t-admin-toggle-btn" onclick="tToggleAdmin()">⚙ Admin Panel</button>
+            </div>
+
+            <!-- Admin panel -->
+            <div class="t-admin-panel" id="tAdminPanel">
+                <div class="t-admin-panel-header">
+                    <h4 class="t-admin-panel-title">
+                        Review Queue
+                        <span class="t-badge" id="tPendingBadge" style="display:none">0</span>
+                    </h4>
+                    <div class="t-pw-row" id="tPwRow">
+                        <input type="password" class="t-pw-input" id="tAdminPw" placeholder="Password">
+                        <button class="t-unlock-btn" onclick="tUnlockAdmin()">Unlock</button>
+                    </div>
+                </div>
+                <div class="t-queue" id="tQueue">
+                    <div class="t-admin-empty" id="tAdminEmpty">🎉 No pending testimonials!</div>
+                    <div id="tPendingList"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===================================================== -->
+
+    <!-- Toast elements -->
+    <div id="jln-toast"></div>
+    <div id="contact-toast"></div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-layout">
+          <div class="contact-left-col">
+            <div class="contact-block">
+              <p class="contact-block-title">✉ Contact Information</p>
+              <a class="contact-item contact-item-link" href="https://mail.google.com/mail/?view=cm&to=johnlenenael31@gmail.com" target="_blank" rel="noopener">
+                <span class="icon">📧</span><span>johnlenenael31@gmail.com</span><span class="contact-action">Open Gmail ↗</span>
+              </a>
+              <div class="contact-item contact-item-link" id="copyPhoneBtn" onclick="copyPhone()" style="cursor:pointer;">
+                <span class="icon">📱</span><span id="phoneText">+63 9463885864</span><span class="contact-action" id="copyLabel">Click to copy</span>
+              </div>
+              <a class="contact-item contact-item-link" href="https://www.google.com/maps?q=Daet,+Camarines+Norte,+Philippines" target="_blank" rel="noopener">
+                <span class="icon">📍</span><span>Daet, Camarines Norte, Philippines</span><span class="contact-action">View on Maps ↗</span>
+              </a>
+            </div>
+            <div class="contact-block">
+              <p class="contact-block-title">⏰ Office Hours</p>
+              <div class="hours-row"><span>Monday – Friday</span><span>8:00 AM – 5:00 PM</span></div>
+              <div class="hours-row"><span>Saturday</span><span>9:00 AM – 12:00 PM</span></div>
+              <div class="hours-row closed"><span>Sunday</span><span>Closed</span></div>
+            </div>
+            <div class="contact-block">
+              <div class="form-block-header">
+                <p class="contact-block-title">💬 Send a Message</p>
+                <h3 class="form-block-heading">Let's Talk!</h3>
+                <p class="form-block-sub">Have a project in mind or just want to say hi? Drop me a message and I'll get back to you as soon as I can.</p>
+              </div>
+              <form id="contactForm" class="contact-form-inner">
+                <div class="form-group">
+                  <input type="text" name="name" id="name" placeholder="Your Name" maxlength="80">
+                  <span class="cf-field-error" id="cfNameErr">Please enter your name</span>
+                </div>
+                <div class="form-group">
+                  <input type="email" name="email" id="email" placeholder="Your Email" maxlength="100">
+                  <span class="cf-field-error" id="cfEmailErr">Please enter a valid email address</span>
+                </div>
+                <div class="form-group">
+                  <textarea name="message" id="message" rows="5" placeholder="Your Message" maxlength="500"></textarea>
+                  <span class="cf-field-error" id="cfMsgErr">Please enter a message (min. 10 characters)</span>
+                </div>
+                <p class="char-row"><span id="jlnCharCount">0</span> / 500 characters</p>
+                <button type="submit" class="btn-send" id="submitBtn">Send Message</button>
+              </form>
+            </div>
+          </div>
+          <div class="contact-right-col">
+            <div class="side-card">
+              <div class="side-card-header">
+                <span class="side-card-icon">🐙</span><h4>GitHub Profile</h4>
+                <span class="status-dot loading" id="gh-dot"></span>
+              </div>
+              <p class="card-loading" id="jln-gh-loading">Loading profile…</p>
+              <div id="jln-gh-profile" style="display:none;">
+                <a id="jln-gh-link" href="#" target="_blank" rel="noopener" class="gh-profile-row">
+                  <img id="jln-gh-avatar" src="" alt="GitHub Avatar">
+                  <div>
+                    <div class="gh-name" id="jln-gh-name"></div>
+                    <div class="gh-handle" id="jln-gh-login"></div>
+                    <div class="gh-bio" id="jln-gh-bio"></div>
+                  </div>
+                </a>
+                <div class="gh-stats">
+                  <div class="gh-stat"><div class="gh-num" id="jln-gh-repos">—</div><div class="gh-lbl">Repos</div></div>
+                  <div class="gh-stat"><div class="gh-num" id="jln-gh-followers">—</div><div class="gh-lbl">Followers</div></div>
+                  <div class="gh-stat"><div class="gh-num" id="jln-gh-following">—</div><div class="gh-lbl">Following</div></div>
+                </div>
+                <a id="jln-gh-view-btn" href="#" target="_blank" rel="noopener" class="btn-gh-view">🐙 View Full GitHub Profile</a>
+              </div>
+              <p class="card-error" id="jln-gh-error" style="display:none;">⚠ Could not load GitHub data.</p>
+            </div>
+            <div class="side-card social-fb-card">
+              <div class="fb-card-top">
+                <div class="fb-logo-wrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="38" height="38">
+                    <path fill="#fff" d="M25,3C12.85,3,3,12.85,3,25c0,11.03,8.125,20.137,18.712,21.728V30.831h-5.443v-5.783h5.443v-3.848c0-6.371,3.104-9.168,8.399-9.168c2.536,0,3.877,0.188,4.512,0.274v5.048h-3.612c-2.248,0-3.033,2.131-3.033,4.533v3.161h6.588l-0.894,5.783h-5.694v15.944C38.716,45.318,47,36.137,47,25C47,12.85,37.15,3,25,3z"/>
+                  </svg>
+                </div>
+                <div class="fb-brand-text">
+                  <span class="fb-brand-name">Facebook</span>
+                  <span class="fb-brand-handle">facebook.com/johnlenenael</span>
+                </div>
+              </div>
+              <div class="social-card-body">
+                <p>Stay updated with my latest projects, announcements, and creative work.</p>
+                <a href="https://www.facebook.com/johnlenenael" target="_blank" rel="noopener" class="btn-fb">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  Open Facebook Profile
+                </a>
+              </div>
+            </div>
+            <div class="side-card social-li-card">
+              <div class="li-card-top">
+                <div class="li-logo-wrap">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 34" width="34" height="34">
+                    <path fill="#fff" d="M34,2.5v29A2.5,2.5,0,0,1,31.5,34H2.5A2.5,2.5,0,0,1,0,31.5V2.5A2.5,2.5,0,0,1,2.5,0h29A2.5,2.5,0,0,1,34,2.5ZM10,13H5V29h5Zm.45-5.5A2.88,2.88,0,0,0,7.59,4.6H7.5a2.9,2.9,0,0,0,0,5.8h0a2.88,2.88,0,0,0,2.95-2.81ZM29,19.28c0-4.81-3.06-6.68-6.1-6.68a5.7,5.7,0,0,0-5.06,2.58H17.7V13H13V29h5V20.49a3.32,3.32,0,0,1,3-3.58h.19c1.59,0,2.77,1,2.77,3.52V29h5Z"/>
+                  </svg>
+                </div>
+                <div class="li-brand-text">
+                  <span class="li-brand-name">LinkedIn</span>
+                  <span class="li-brand-handle">Johnlene Lorenz Nael</span>
+                </div>
+              </div>
+              <div class="social-card-body">
+                <p>Connect professionally and explore collaboration opportunities in tech and design.</p>
+                <a href="https://www.linkedin.com/in/johnlene-lorenz-nael-b01a29332" target="_blank" rel="noopener" class="btn-li">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  View LinkedIn Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map-section">
+          <p class="map-heading">📍 Location</p>
+          <div class="map-frame">
+            <iframe title="My Location — Daet, Camarines Norte" src="https://maps.google.com/maps?q=14.113558,122.939240&z=15&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <p class="map-caption">📍 Daet, Camarines Norte, Philippines</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Modals -->
+    <div id="kwartrack" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('kwartrack')">&times;</span>
+            <div class="modal-body">
+                <img src="img/kwar.png" class="modal-image" alt="KwarTrack">
+                <div class="modal-text">
+                    <h3>KwarTrack</h3>
+                    <p>A financial management system to help users efficiently track expenses, income, and budget.</p>
+                    <div class="modal-tags"><span>Java</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="kwartracktwo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('kwartracktwo')">&times;</span>
+            <div class="modal-body">
+                <img src="img/kwar2.png" class="modal-image" alt="KwarTrack">
+                <div class="modal-text">
+                    <h3>KwarTrack: A Financial Management System For Student Governments</h3>
+                    <p>The KwarTrack System facilitates the management of student fees and fines in the CCMS.</p>
+                    <div class="modal-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MySQL</span><span>PHP</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="eden" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('eden')">&times;</span>
+            <div class="modal-body">
+                <img src="img/eden.png" class="modal-image" alt="Eden">
+                <div class="modal-text">
+                    <h3>Edenric's Food and Products Website</h3>
+                    <p>A user-friendly platform with separate customer and admin interfaces for product browsing and management.</p>
+                    <div class="modal-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>MySQL</span><span>PHP</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="portfolio" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('portfolio')">&times;</span>
+            <div class="modal-body">
+                <img src="img/web.png" class="modal-image" alt="Portfolio Website">
+                <div class="modal-text">
+                    <h3>Portfolio Website</h3>
+                    <p>A creative portfolio showcasing design work with smooth animations and interactive elements.</p>
+                    <div class="modal-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="parkners" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('parkners')">&times;</span>
+            <div class="modal-body">
+                <img src="img/parkners.png" class="modal-image" alt="Parkners">
+                <div class="modal-text">
+                    <h3>Parkners</h3>
+                    <p>An app providing real-time parking space availability, booking, and navigation assistance.</p>
+                    <div class="modal-tags"><span>Java</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="monkey" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('monkey')">&times;</span>
+            <div class="modal-body">
+                <img src="img/monkey.png" class="modal-image" alt="Monkey">
+                <div class="modal-text">
+                    <h3>Monkey</h3>
+                    <p>An interactive game with challenges and rewards for desktop and mobile.</p>
+                    <div class="modal-tags"><span>Java</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lto" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('lto')">&times;</span>
+            <div class="modal-body">
+                <img src="img/LTO.png" class="modal-image" alt="LTO Queue">
+                <div class="modal-text">
+                    <h3>LTO Queue</h3>
+                    <p>A queue management system to reduce wait times and streamline vehicle registration.</p>
+                    <div class="modal-tags"><span>Java</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="filemanager" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('filemanager')">&times;</span>
+            <div class="modal-body">
+                <img src="img/file.png" class="modal-image" alt="File Manager">
+                <div class="modal-text">
+                    <h3>File Manager</h3>
+                    <p>An intuitive interface for organizing, previewing, and managing files with drag-and-drop and search.</p>
+                    <div class="modal-tags"><span>Java</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+    // ─── EmailJS init ─────────────────────────────────────
+    emailjs.init("MrLblwdvg_JdUjb_L");
+
+    // ═══════════════════════════════════════════════════════
+    //  SHARED UTILITIES
+    // ═══════════════════════════════════════════════════════
+
+    // Sanitize: strip HTML tags, trim whitespace
+    function sanitize(str) {
+        return String(str).replace(/<[^>]*>/g, '').trim();
+    }
+
+    // Validate email format
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+    }
+
+    // Show/hide field error
+    function fieldError(inputEl, errEl, show) {
+        if (show) {
+            inputEl.classList.add(inputEl.closest('.contact-form-inner') ? 'cf-invalid' : 't-invalid');
+            inputEl.classList.remove(inputEl.closest('.contact-form-inner') ? 'cf-valid' : 't-valid');
+            errEl.classList.add('show');
+        } else {
+            inputEl.classList.remove('t-invalid', 'cf-invalid');
+            inputEl.classList.add(inputEl.closest('.contact-form-inner') ? '' : 't-valid');
+            errEl.classList.remove('show');
+        }
+    }
+
+    // Clear all field errors from a form
+    function clearErrors(form) {
+        form.querySelectorAll('.t-invalid,.cf-invalid').forEach(el => el.classList.remove('t-invalid','cf-invalid','t-valid'));
+        form.querySelectorAll('.t-field-error,.cf-field-error').forEach(el => el.classList.remove('show'));
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  CONTACT FORM
+    // ═══════════════════════════════════════════════════════
+
+    document.getElementById('message').addEventListener('input', function() {
+        document.getElementById('jlnCharCount').textContent = this.value.length;
+        // Live clear error once they start typing
+        if (this.value.trim().length >= 10) {
+            this.classList.remove('cf-invalid');
+            document.getElementById('cfMsgErr').classList.remove('show');
+        }
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        clearErrors(this);
+
+        // ── Validation ──
+        const nameEl  = document.getElementById('name');
+        const emailEl = document.getElementById('email');
+        const msgEl   = document.getElementById('message');
+
+        const name    = sanitize(nameEl.value);
+        const email   = sanitize(emailEl.value);
+        const message = sanitize(msgEl.value);
+
+        let valid = true;
+
+        if (name.length < 2) {
+            fieldError(nameEl, document.getElementById('cfNameErr'), true);
+            valid = false;
+        }
+        if (!isValidEmail(email)) {
+            fieldError(emailEl, document.getElementById('cfEmailErr'), true);
+            valid = false;
+        }
+        if (message.length < 10) {
+            fieldError(msgEl, document.getElementById('cfMsgErr'), true);
+            valid = false;
+        }
+        if (!valid) return;
+
+        // ── Processing ──
+        btn.textContent = 'Sending…'; btn.disabled = true; btn.classList.add('loading');
+
+        // Sanitized payload
+        const payload = { from_name: name, from_email: email, message };
+
+        try {
+            await emailjs.send("service_ca1mm9d", "template_ter2fjs", payload);
+            toast('✅ Message sent! I\'ll reply soon.', 'success');
+            this.reset();
+            document.getElementById('jlnCharCount').textContent = '0';
+        } catch {
+            // Fallback to Formspree
+            try {
+                const r = await fetch('https://formspree.io/f/mqedzvoj', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (r.ok) {
+                    toast('✅ Message sent!', 'success');
+                    this.reset();
+                    document.getElementById('jlnCharCount').textContent = '0';
+                } else {
+                    throw new Error('Formspree failed');
+                }
+            } catch {
+                toast('❌ Could not send. Please email me at johnlenenael31@gmail.com', 'error', 8000);
+            }
+        }
+
+        btn.textContent = 'Send Message'; btn.disabled = false; btn.classList.remove('loading');
+    });
+
+    function toast(msg, type, dur) {
+        dur = dur || 5000;
+        const t = document.getElementById('contact-toast');
+        t.textContent = msg; t.className = 'show ' + type;
+        clearTimeout(t._t);
+        t._t = setTimeout(() => t.className = '', dur);
+    }
+
+    // ─── GitHub Loader ────────────────────────────────────
+    (async function() {
+        const USERNAME = 'johnlenenael';
+        const loadEl = document.getElementById('jln-gh-loading');
+        const profEl = document.getElementById('jln-gh-profile');
+        const errEl  = document.getElementById('jln-gh-error');
+        const dot    = document.getElementById('gh-dot');
+        try {
+            const r = await fetch('https://api.github.com/users/' + USERNAME);
+            if (!r.ok) throw new Error(r.status);
+            const d = await r.json();
+            document.getElementById('jln-gh-avatar').src = d.avatar_url;
+            document.getElementById('jln-gh-name').textContent = d.name || d.login;
+            document.getElementById('jln-gh-login').textContent = '@' + d.login;
+            document.getElementById('jln-gh-bio').textContent = d.bio || '';
+            document.getElementById('jln-gh-repos').textContent = d.public_repos;
+            document.getElementById('jln-gh-followers').textContent = d.followers;
+            document.getElementById('jln-gh-following').textContent = d.following;
+            const url = 'https://github.com/' + d.login;
+            document.getElementById('jln-gh-link').href = url;
+            document.getElementById('jln-gh-view-btn').href = url;
+            loadEl.style.display = 'none'; profEl.style.display = 'block';
+            dot.className = 'status-dot online';
+        } catch {
+            loadEl.style.display = 'none'; errEl.style.display = 'block';
+            dot.className = 'status-dot error';
+        }
+    })();
+
+    function copyPhone() {
+        const phone = '+63 9463885864';
+        const label = document.getElementById('copyLabel');
+        navigator.clipboard.writeText(phone).then(function() {
+            label.textContent = '✅ Copied!'; label.classList.add('copied');
+            setTimeout(() => { label.textContent = 'Click to copy'; label.classList.remove('copied'); }, 2500);
+        }).catch(function() {
+            const el = document.createElement('textarea');
+            el.value = phone; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            label.textContent = '✅ Copied!'; label.classList.add('copied');
+            setTimeout(() => { label.textContent = 'Click to copy'; label.classList.remove('copied'); }, 2500);
+        });
+    }
+
+    // ─── Quote Loader ─────────────────────────────────────
+    async function loadQuote() {
+        try {
+            const response = await fetch('https://quotes-api-self.vercel.app/quote');
+            if (!response.ok) throw new Error('failed');
+            const data = await response.json();
+            document.getElementById('quote-text').textContent = '"' + data.quote + '"';
+            document.getElementById('quote-author').textContent = '— ' + data.author;
+        } catch {
+            const quotes = [
+                { quote: "The best way to predict the future is to create it.", author: "Abraham Lincoln" },
+                { quote: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
+                { quote: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+                { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+                { quote: "Simplicity is the soul of efficiency.", author: "Austin Freeman" }
+            ];
+            const r = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-text').textContent = '"' + r.quote + '"';
+            document.getElementById('quote-author').textContent = '— ' + r.author;
+        }
+    }
+    loadQuote();
+
+    // ═══════════════════════════════════════════════════════
+    //  TESTIMONIALS SYSTEM
+    // ═══════════════════════════════════════════════════════
+    const T_ADMIN_PW     = 'jln2024';
+    const T_APPROVED_KEY = 'jln_t_approved';
+    const T_PENDING_KEY  = 'jln_t_pending';
+    let   tAdminMode     = false;
+    let   tLastSubmit    = 0; // rate limit tracker
+
+    function tGet(key) {
+        try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : []; }
+        catch { return []; }
+    }
+    function tSet(key, arr) {
+        try { localStorage.setItem(key, JSON.stringify(arr)); } catch(e) { console.error(e); }
+    }
+    function tEsc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function tAvatarColor(name) {
+        const colors = ['#FF1493','#FF69B4','#e91e8c','#c2185b','#f06292','#ad1457','#ff4081'];
+        return colors[(name.charCodeAt(0)||0) % colors.length];
+    }
+
+    // Show toast inside the testimonial form
+    function tToast(msg, type) {
+        const el = document.getElementById('tFormToast');
+        el.textContent = msg;
+        el.className = 't-form-toast ' + type;
+        // Auto-hide success after 6s
+        if (type === 'success') {
+            clearTimeout(el._t);
+            el._t = setTimeout(() => { el.className = 't-form-toast'; }, 6000);
+        }
+    }
+
+    function tRenderApproved() {
+        const grid  = document.getElementById('tGrid');
+        const items = tGet(T_APPROVED_KEY);
+        if (!items.length) {
+            grid.innerHTML = '<div class="t-empty-state"><div class="t-empty-icon">💬</div><p>No testimonials yet — be the first to leave one!</p></div>';
+            grid.classList.remove('admin-active');
+            return;
+        }
+        if (tAdminMode) grid.classList.add('admin-active');
+        else grid.classList.remove('admin-active');
+        grid.innerHTML = items.map((t, i) => {
+            const filled  = '★'.repeat(t.rating || 5);
+            const empty   = '☆'.repeat(5 - (t.rating || 5));
+            const initial = (t.name || '?')[0].toUpperCase();
+            const bg   = tAvatarColor(t.name || '');
+            const date = t.date ? new Date(t.date).toLocaleDateString('en-US',{month:'short',year:'numeric'}) : '';
+            return `<div class="t-card" style="animation-delay:${i*0.06}s">
+                <button class="t-delete-btn" onclick="tDeleteApproved(${i})">🗑 Remove</button>
+                <div class="t-card-stars"><span class="t-star-filled">${filled}</span><span class="t-star-empty">${empty}</span></div>
+                <p class="t-card-text">"${tEsc(t.message)}"</p>
+                <div class="t-card-author">
+                    <div class="t-avatar" style="background:${bg}">${initial}</div>
+                    <div><div class="t-author-name">${tEsc(t.name)}</div><div class="t-author-role">${tEsc(t.role)}</div></div>
+                </div>
+                ${date ? `<div class="t-card-date">${date}</div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function tRenderPending() {
+        const items = tGet(T_PENDING_KEY);
+        const list  = document.getElementById('tPendingList');
+        const empty = document.getElementById('tAdminEmpty');
+        const badge = document.getElementById('tPendingBadge');
+        badge.textContent = items.length;
+        badge.style.display = items.length ? 'inline-flex' : 'none';
+        if (!items.length) { empty.style.display = 'block'; list.innerHTML = ''; return; }
+        empty.style.display = 'none';
+        list.innerHTML = items.map((t, i) => {
+            const stars = '★'.repeat(t.rating||5) + '☆'.repeat(5-(t.rating||5));
+            const date  = t.date ? new Date(t.date).toLocaleString('en-PH',{timeZone:'Asia/Manila',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+            return `<div class="t-pending-card">
+                <div class="t-pending-header">
+                    <div>
+                        <div class="t-pending-name">${tEsc(t.name)}</div>
+                        <div class="t-pending-role">${tEsc(t.role)}</div>
+                    </div>
+                    <div style="text-align:right">
+                        <span class="t-pending-stars">${stars}</span>
+                        ${date ? `<div style="font-size:11px;color:#aaa;margin-top:3px">${date}</div>` : ''}
+                    </div>
+                </div>
+                <p class="t-pending-text">"${tEsc(t.message)}"</p>
+                <div class="t-pending-actions">
+                    <button class="t-approve-btn" onclick="tApprove(${i})">✓ Approve</button>
+                    <button class="t-reject-btn"  onclick="tReject(${i})">✕ Reject</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function tApprove(i) {
+        const pending  = tGet(T_PENDING_KEY);
+        const approved = tGet(T_APPROVED_KEY);
+        const item = pending.splice(i, 1)[0];
+        if (!item) return;
+        approved.unshift(item);
+        tSet(T_PENDING_KEY, pending);
+        tSet(T_APPROVED_KEY, approved);
+        tRenderPending();
+        tRenderApproved();
+    }
+
+    function tReject(i) {
+        const pending = tGet(T_PENDING_KEY);
+        pending.splice(i, 1);
+        tSet(T_PENDING_KEY, pending);
+        tRenderPending();
+    }
+
+    function tDeleteApproved(i) {
+        if (!confirm('Remove this testimonial from your site?')) return;
+        const approved = tGet(T_APPROVED_KEY);
+        approved.splice(i, 1);
+        tSet(T_APPROVED_KEY, approved);
+        tRenderApproved();
+    }
+
+    function tToggleAdmin() {
+        const panel = document.getElementById('tAdminPanel');
+        panel.classList.toggle('open');
+        if (panel.classList.contains('open')) tRenderPending();
+    }
+
+    function tUnlockAdmin() {
+        const pw = document.getElementById('tAdminPw').value;
+        if (pw !== T_ADMIN_PW) {
+            document.getElementById('tAdminPw').classList.add('t-invalid');
+            setTimeout(() => document.getElementById('tAdminPw').classList.remove('t-invalid'), 1000);
+            alert('Incorrect password.');
+            return;
+        }
+        tAdminMode = true;
+        document.getElementById('tQueue').classList.add('unlocked');
+        document.getElementById('tAdminBanner').classList.add('show');
+        document.getElementById('tPwRow').style.display = 'none';
+        tRenderPending();
+        tRenderApproved();
+    }
+
+    // Live char counter for testimonial message
+    document.getElementById('tMessage').addEventListener('input', function() {
+        document.getElementById('tMsgCount').textContent = this.value.length + ' / 400';
+        if (this.value.trim().length >= 20) {
+            this.classList.remove('t-invalid');
+            document.getElementById('tMsgErr').classList.remove('show');
+        }
+    });
+
+    // Live clear name/role errors on typing
+    ['tName','tRole'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function() {
+            if (this.value.trim().length >= 2) {
+                this.classList.remove('t-invalid');
+                document.getElementById(id + 'Err').classList.remove('show');
+            }
+        });
+    });
+
+    document.getElementById('tForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn     = document.getElementById('tSubmitBtn');
+        const toastEl = document.getElementById('tFormToast');
+        clearErrors(this);
+        toastEl.className = 't-form-toast';
+
+        // ── Rate limiting: 1 submission per 60 seconds ──
+        const now = Date.now();
+        if (now - tLastSubmit < 60000) {
+            tToast('⏳ Please wait a moment before submitting again.', 'error');
+            return;
+        }
+
+        // ── Validation ──
+        const nameEl = document.getElementById('tName');
+        const roleEl = document.getElementById('tRole');
+        const msgEl  = document.getElementById('tMessage');
+
+        const name    = sanitize(nameEl.value);
+        const role    = sanitize(roleEl.value);
+        const message = sanitize(msgEl.value);
+
+        const ratingEl = document.querySelector('input[name="tRating"]:checked');
+        const rating   = ratingEl ? parseInt(ratingEl.value) : 5;
+
+        let valid = true;
+
+        if (name.length < 2) {
+            fieldError(nameEl, document.getElementById('tNameErr'), true);
+            valid = false;
+        }
+        if (role.length < 2) {
+            fieldError(roleEl, document.getElementById('tRoleErr'), true);
+            valid = false;
+        }
+        if (message.length < 20) {
+            fieldError(msgEl, document.getElementById('tMsgErr'), true);
+            valid = false;
+        }
+        if (!valid) return;
+
+        // ── Processing ──
+        btn.textContent = 'Submitting…'; btn.disabled = true; btn.classList.add('loading');
+
+        // Sanitized data object
+        const entry = {
+            name,
+            role,
+            message,
+            rating,
+            date: new Date().toISOString()
+        };
+
+        try {
+            // Save to localStorage pending queue
+            const pending = tGet(T_PENDING_KEY);
+            pending.push(entry);
+            tSet(T_PENDING_KEY, pending);
+            tLastSubmit = Date.now();
+
+            // Send email notification
+            const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+            await emailjs.send("service_ca1mm9d", "template_3ssw47l", {
+                t_name:    name,
+                t_role:    role,
+                t_message: message,
+                t_stars:   stars,
+                t_rating:  rating + ' / 5',
+                t_date:    new Date().toLocaleString('en-PH', { timeZone: 'Asia/Manila' }),
+                admin_url: window.location.href
+            });
+
+            // ── Success response ──
+            tToast('✅ Thank you, ' + name + '! Your testimonial is under review and will appear shortly.', 'success');
+            this.reset();
+            document.getElementById('tMsgCount').textContent = '0 / 400';
+            tRenderPending();
+
+        } catch(err) {
+            console.warn('EmailJS notification failed (submission still saved):', err);
+            // Submission was still saved to localStorage — just the email failed
+            tToast('✅ Thank you! Your testimonial was received and is under review.', 'success');
+            this.reset();
+            document.getElementById('tMsgCount').textContent = '0 / 400';
+            tRenderPending();
+        }
+
+        btn.textContent = 'Submit Testimonial'; btn.disabled = false; btn.classList.remove('loading');
+    });
+
+    // Init
+    tRenderApproved();
+    </script>
+
+    <script src="darkmode.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

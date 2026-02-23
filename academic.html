@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Background - Johnlene Lorenz R. Nael</title>
+    <!-- ⚡ MUST be first: apply dark mode before ANY styles load to kill flash -->
+    <script>if(localStorage.getItem('darkMode')==='true'){document.documentElement.classList.add('dark-mode');}</script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, var(--hot-pink) 0%, var(--light-pink) 100%);
+            color: var(--white);
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+        .page-header h1 { font-size: 48px; margin-bottom: 15px; }
+        .page-header p { font-size: 20px; opacity: 0.9; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            margin: 30px 0; padding: 12px 25px;
+            background: var(--white); color: var(--hot-pink);
+            text-decoration: none; border-radius: 50px;
+            font-weight: 600; transition: var(--transition);
+        }
+        .back-btn:hover { background: var(--hot-pink); color: var(--white); transform: translateX(-5px); }
+        .content-section { padding: 80px 0; }
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; padding: 40px 0; }
+        .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: var(--hot-pink); }
+        .timeline-item { position: relative; margin-bottom: 50px; width: 50%; padding: 0 40px; }
+        .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+        .timeline-item:nth-child(even) { left: 50%; }
+        .timeline-content { background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: var(--transition); }
+        .timeline-content:hover { transform: translateY(-5px); box-shadow: 0 10px 30px var(--shadow); }
+        .timeline-image { margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+        .timeline-image img { width: 100%; height: auto; display: block; }
+        .timeline-logo { display: flex; justify-content: center; margin: 15px 0; }
+        .timeline-logo img { width: 80px; height: auto; }
+        .timeline-dot { position: absolute; top: 0; width: 20px; height: 20px; background: var(--hot-pink); border: 4px solid var(--white); border-radius: 50%; box-shadow: 0 0 0 4px var(--shadow); }
+        .timeline-item:nth-child(odd) .timeline-dot { right: -10px; }
+        .timeline-item:nth-child(even) .timeline-dot { left: 30px; }
+        .timeline-year { display: inline-block; padding: 5px 15px; background: var(--hot-pink); color: var(--white); border-radius: 20px; font-weight: 600; margin-bottom: 15px; }
+        .timeline-content h3 { font-size: 24px; color: var(--dark-gray); margin-bottom: 10px; }
+        .timeline-content h4 { font-size: 18px; color: var(--hot-pink); margin-bottom: 15px; font-weight: 600; }
+        .timeline-content p { color: var(--light-gray); line-height: 1.6; }
+        .timeline-highlights { list-style: none; padding: 0; margin-top: 15px; }
+        .timeline-highlights li { color: var(--light-gray); padding: 5px 0 5px 25px; position: relative; line-height: 1.6; }
+        .timeline-highlights li::before { content: '✓'; position: absolute; left: 0; color: var(--hot-pink); font-weight: bold; }
+        /* Dark mode overrides for inline styles */
+        body.dark-mode .timeline-content { background: #1a1a2e; }
+        body.dark-mode .timeline-dot { border-color: #1a1a2e; }
+        @media (max-width: 768px) {
+            .timeline::before { left: 30px; }
+            .timeline-item { width: 100%; left: 0 !important; padding-left: 70px; padding-right: 20px; text-align: left !important; }
+            .timeline-dot { left: 20px !important; }
+            .page-header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">JLN</div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <!-- ✨ DARK MODE TOGGLE -->
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <span class="toggle-icon">🌙</span>
+                <span class="toggle-label-light">Dark</span>
+                <span class="toggle-label-dark">Light</span>
+            </button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>🎓 Academic Background</h1>
+            <p>My Educational Journey</p>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <div class="container">
+            <a href="index.html#about" class="back-btn">← Back to Portfolio</a>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-image">
+                            <img src="img/cnscelem.jpg" alt="CNSC Elementary">
+                        </div>
+                        <span class="timeline-year">2011 - 2017</span>
+                        <h3>CNSC Abaño Laboratory Elementary School</h3>
+                        <h4>Elementary Education</h4>
+                        <div class="timeline-logo"><img src="img/cnsc.png" alt="CNSC Logo"></div>
+                        <p>Completed elementary education at CNSC Abaño Laboratory Elementary School from 2011 to 2017. This institution, affiliated with Camarines Norte State College, provided foundational academic skills and values that prepared me for higher education.</p>
+                        <ul class="timeline-highlights">
+                            <li>Developed strong foundational skills in core subjects</li>
+                            <li>Participated in various school activities and competitions</li>
+                            <li>Recognized as an Honor Student for consistent academic excellence</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-year">2017 - 2021</span>
+                        <h3>CNSC Abaño Laboratory High School</h3>
+                        <h4>Junior High School (Grades 7-10)</h4>
+                        <div class="timeline-logo"><img src="img/cnsc.png" alt="CNSC Logo"></div>
+                        <p>Completed Junior High School education from 2017 to 2021, covering Grades 7 through 10. This phase of education developed essential skills in mathematics, science, language, and social studies, while fostering personal growth and preparing me for Senior High School.</p>
+                        <ul class="timeline-highlights">
+                            <li>Mastered core academic subjects including Mathematics, Science, English, and Filipino</li>
+                            <li>Developed critical thinking and problem-solving abilities</li>
+                            <li>Maintained honor student status throughout junior high school</li>
+                            <li>Engaged in extracurricular activities and community service</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-year">2021 - 2023</span>
+                        <h3>Mabini Colleges - Senior High School</h3>
+                        <h4>STEM Track (Grades 11-12)</h4>
+                        <div class="timeline-logo"><img src="img/mabini.png" alt="Mabini Logo"></div>
+                        <p>Completed Senior High School education from 2021 to 2023, covering Grades 11 and 12 under the K-12 Basic Education Program. Specialized in STEM track, which provided focused learning aligned with my college and career goals.</p>
+                        <ul class="timeline-highlights">
+                            <li><strong>Track:</strong> Science, Technology, Engineering, and Mathematics (STEM)</li>
+                            <li>Graduated with <strong>Highest Honors</strong> - the highest academic distinction</li>
+                            <li>Awarded <strong>2nd Best Capstone Paper</strong> for research excellence</li>
+                            <li>Received <strong>Best in Pitching</strong> award for presentation skills</li>
+                            <li>Developed advanced skills in mathematics, sciences, and research methodology</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-image">
+                            <img src="img/cnsccol.png" alt="CNSC College">
+                        </div>
+                        <span class="timeline-year">2023 - Present</span>
+                        <h3>Camarines Norte State College</h3>
+                        <h4>College of Computing and Multimedia Studies</h4>
+                        <div class="timeline-logo"><img src="img/cnsc.png" alt="CNSC Logo"></div>
+                        <p>Currently pursuing a Bachelor of Science in Information Technology (BSIT) at the College of Computing and Multimedia Studies since 2023. CNSC CCMS is dedicated to developing competent IT professionals equipped with technical expertise, critical thinking, and innovative problem-solving skills.</p>
+                        <ul class="timeline-highlights">
+                            <li><strong>Degree:</strong> Bachelor of Science in Information Technology (BSIT)</li>
+                            <li><strong>Year Level:</strong> 2nd Year</li>
+                            <li>Developing expertise in web design, programming, and multimedia</li>
+                            <li>Serving as <strong>Multimedia Officer</strong> at CCMS Student Government</li>
+                            <li>Member of Junior Council Project Monitoring Development Committee</li>
+                            <li>Active participant in USSG Committee on Guidelines and Policies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Johnlene Lorenz R. Nael. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="darkmode.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

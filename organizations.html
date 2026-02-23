@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizations - Johnlene Lorenz R. Nael</title>
+    <!-- ⚡ MUST be first: apply dark mode before ANY styles load to kill flash -->
+    <script>if(localStorage.getItem('darkMode')==='true'){document.documentElement.classList.add('dark-mode');}</script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header { background: linear-gradient(135deg, var(--hot-pink) 0%, var(--light-pink) 100%); color: var(--white); padding: 120px 0 80px; text-align: center; }
+        .page-header h1 { font-size: 48px; margin-bottom: 15px; }
+        .page-header p { font-size: 20px; opacity: 0.9; }
+        .back-btn { display: inline-flex; align-items: center; gap: 10px; margin: 30px 0; padding: 12px 25px; background: var(--white); color: var(--hot-pink); text-decoration: none; border-radius: 50px; font-weight: 600; transition: var(--transition); }
+        .back-btn:hover { background: var(--hot-pink); color: var(--white); transform: translateX(-5px); }
+        .content-section { padding: 80px 0; }
+        .org-list { max-width: 900px; margin: 40px auto 0; }
+        .org-item { background: var(--white); padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin-bottom: 30px; transition: var(--transition); border-left: 5px solid var(--hot-pink); }
+        .org-item:hover { transform: translateX(10px); box-shadow: 0 10px 30px var(--shadow); }
+        .org-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+        .org-icon { font-size: 50px; min-width: 70px; text-align: center; }
+        .org-logo { width: 70px; min-width: 70px; text-align: center; }
+        .org-logo img { width: 60px; height: auto; }
+        .org-title { flex: 1; }
+        .org-title h3 { font-size: 24px; color: var(--dark-gray); margin-bottom: 5px; }
+        .org-position { color: var(--hot-pink); font-weight: 600; font-size: 16px; }
+        .org-period { display: inline-block; padding: 5px 15px; background: var(--off-white); color: var(--light-gray); border-radius: 20px; font-size: 14px; font-weight: 600; }
+        .org-description { color: var(--light-gray); line-height: 1.8; margin-bottom: 20px; }
+        .org-achievements { background: var(--off-white); padding: 20px; border-radius: 10px; margin-top: 20px; }
+        .org-achievements h4 { color: var(--hot-pink); font-size: 16px; margin-bottom: 10px; }
+        .org-achievements ul { list-style: none; padding: 0; }
+        .org-achievements li { color: var(--light-gray); padding: 5px 0 5px 25px; position: relative; }
+        .org-achievements li::before { content: '✓'; position: absolute; left: 0; color: var(--hot-pink); font-weight: bold; }
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 32px; }
+            .org-item { padding: 25px; }
+            .org-header { flex-direction: column; text-align: center; }
+            .org-title h3 { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">JLN</div>
+            <ul class="nav-menu">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <!-- ✨ DARK MODE TOGGLE -->
+            <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+                <span class="toggle-icon">🌙</span>
+                <span class="toggle-label-light">Dark</span>
+                <span class="toggle-label-dark">Light</span>
+            </button>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>👥 Organizations</h1>
+            <p>Community Involvement & Leadership</p>
+        </div>
+    </div>
+
+    <section class="content-section">
+        <div class="container">
+            <a href="index.html#about" class="back-btn">← Back to Portfolio</a>
+
+            <div class="org-list">
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/ccms.png" alt="CCMS Logo"></div>
+                        <div class="org-title">
+                            <h3>CCMS Student Government</h3>
+                            <p class="org-position">Multimedia Officer</p>
+                        </div>
+                        <span class="org-period">2025 - Present</span>
+                    </div>
+                    <p class="org-description">Currently serving as <strong>Multimedia Officer</strong> for the CCMS Student Government during the academic year 2025-present.</p>
+                    <div class="org-achievements">
+                        <h4>Key Responsibilities:</h4>
+                        <ul>
+                            <li>Creating visual content and promotional materials</li>
+                            <li>Designing graphics for social media and announcements</li>
+                            <li>Documenting events through photography and videography</li>
+                            <li>Managing digital communication channels</li>
+                            <li>Ensuring effective visual representation of activities</li>
+                            <li>Supporting student government initiatives through multimedia</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/ussg.png" alt="USSG Logo"></div>
+                        <div class="org-title">
+                            <h3>CNSC University Student Supreme Government</h3>
+                            <p class="org-position">Committee on Guidelines and Policies</p>
+                        </div>
+                        <span class="org-period">Present</span>
+                    </div>
+                    <p class="org-description">Member of the <strong>Committee on Guidelines and Policies</strong> under the University Student Supreme Government at Camarines Norte State College.</p>
+                    <div class="org-achievements">
+                        <h4>Key Responsibilities:</h4>
+                        <ul>
+                            <li>Reviewing and developing student policies</li>
+                            <li>Refining organizational guidelines and procedures</li>
+                            <li>Ensuring compliance with university regulations</li>
+                            <li>Advocating for guidelines promoting student welfare</li>
+                            <li>Contributing to organizational effectiveness</li>
+                            <li>Representing CCMS in university-wide governance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/ccms.png" alt="CCMS Logo"></div>
+                        <div class="org-title">
+                            <h3>CCMS Student Government</h3>
+                            <p class="org-position">Junior Council - Project Monitoring Development Committee</p>
+                        </div>
+                        <span class="org-period">2024</span>
+                    </div>
+                    <p class="org-description">Served as a member of the <strong>Junior Council Project Monitoring Development Committee</strong> under the CCMS Student Government for the academic year 2024-2025.</p>
+                    <div class="org-achievements">
+                        <h4>Key Responsibilities:</h4>
+                        <ul>
+                            <li>Overseeing and evaluating student projects</li>
+                            <li>Ensuring alignment with organizational goals</li>
+                            <li>Contributing to initiative development</li>
+                            <li>Monitoring project implementation and progress</li>
+                            <li>Collaborating with fellow council members</li>
+                            <li>Supporting CCMS student activities and programs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/cnsc.png" alt="Save Me Organization"></div>
+                        <div class="org-title">
+                            <h3>Save Me Organization</h3>
+                            <p class="org-position">Active Member</p>
+                        </div>
+                        <span class="org-period">2019 - 2022</span>
+                    </div>
+                    <p class="org-description">Active participant in <strong>Save Me Organization</strong>, engaging in advocacy and community service initiatives.</p>
+                    <div class="org-achievements">
+                        <h4>Key Activities:</h4>
+                        <ul>
+                            <li>Participated in humanitarian and outreach programs</li>
+                            <li>Engaged in advocacy campaigns</li>
+                            <li>Community service and volunteer work</li>
+                            <li>Fostered empathy and social responsibility</li>
+                            <li>Developed leadership through service</li>
+                            <li>Contributed to various social causes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/teatro.png" alt="Teatro Bughaw"></div>
+                        <div class="org-title">
+                            <h3>Teatro Bughaw</h3>
+                            <p class="org-position">Theater Group Member</p>
+                        </div>
+                        <span class="org-period">2020</span>
+                    </div>
+                    <p class="org-description">Participated in <strong>Teatro Bughaw</strong> theater group, engaging in stage performances and dramatic arts.</p>
+                    <div class="org-achievements">
+                        <h4>Key Activities:</h4>
+                        <ul>
+                            <li>Performed in various theatrical productions</li>
+                            <li>Engaged in dramatic arts and stage acting</li>
+                            <li>Cultural presentations and performances</li>
+                            <li>Fostered creativity and artistic expression</li>
+                            <li>Developed performance skills and stage presence</li>
+                            <li>Collaborative teamwork in productions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="org-item">
+                    <div class="org-header">
+                        <div class="org-logo"><img src="img/sk.png" alt="Youth Leader"></div>
+                        <div class="org-title">
+                            <h3>Purok Youth Leader</h3>
+                            <p class="org-position">Youth Leader</p>
+                        </div>
+                        <span class="org-period">Community Service</span>
+                    </div>
+                    <p class="org-description">Served as <strong>Purok Youth Leader</strong>, representing and advocating for the youth in community development initiatives.</p>
+                    <div class="org-achievements">
+                        <h4>Key Responsibilities:</h4>
+                        <ul>
+                            <li>Represented youth in community development</li>
+                            <li>Organized youth activities and programs</li>
+                            <li>Facilitated communication with barangay officials</li>
+                            <li>Promoted youth empowerment initiatives</li>
+                            <li>Led community service projects</li>
+                            <li>Fostered civic engagement among young residents</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Johnlene Lorenz R. Nael. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="darkmode.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

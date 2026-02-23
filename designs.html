@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designs & Pubmats – Johnlene Lorenz R. Nael</title>
+    <script>if(localStorage.getItem('darkMode')==='true'){document.documentElement.classList.add('dark-mode');}</script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .designs-hero {
+            padding: 120px 0 60px; text-align: center;
+            background: linear-gradient(135deg, var(--bg-primary,#f8fafc) 0%, var(--bg-secondary,#eef2ff) 100%);
+            position: relative; overflow: hidden;
+        }
+        .dark-mode .designs-hero { background: linear-gradient(135deg,#0f0f1a 0%,#1a1a2e 100%); }
+        .designs-hero::before {
+            content:''; position:absolute; top:-80px; left:-80px; width:340px; height:340px;
+            border-radius:50%; background:radial-gradient(circle,rgba(102,126,234,.18) 0%,transparent 70%);
+        }
+        .designs-hero::after {
+            content:''; position:absolute; bottom:-60px; right:-60px; width:260px; height:260px;
+            border-radius:50%; background:radial-gradient(circle,rgba(118,75,162,.15) 0%,transparent 70%);
+        }
+        .designs-hero h1 {
+            font-size:clamp(2rem,5vw,3.2rem); font-weight:800; margin-bottom:14px;
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+        }
+        .designs-hero p { font-size:1.1rem; color:var(--text-secondary,#666); max-width:540px; margin:0 auto 30px; line-height:1.7; }
+        .dark-mode .designs-hero p { color:#aaa; }
+        .back-btn {
+            display:inline-flex; align-items:center; gap:8px; padding:10px 22px; border-radius:50px;
+            background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-size:.9rem; font-weight:600;
+            text-decoration:none; transition:transform .2s,box-shadow .2s; box-shadow:0 4px 14px rgba(102,126,234,.35);
+        }
+        .back-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(102,126,234,.45); }
+
+        .filter-bar { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; padding:40px 20px 20px; }
+        .filter-btn {
+            padding:9px 24px; border-radius:50px; border:2px solid #667eea; background:transparent;
+            color:#667eea; font-size:.88rem; font-weight:600; cursor:pointer; transition:all .25s; letter-spacing:.5px;
+        }
+        .filter-btn:hover,.filter-btn.active {
+            background:linear-gradient(135deg,#667eea,#764ba2); color:#fff;
+            border-color:transparent; box-shadow:0 4px 14px rgba(102,126,234,.35); transform:translateY(-1px);
+        }
+        .dark-mode .filter-btn { border-color:#667eea; color:#a5b4fc; }
+        .dark-mode .filter-btn:hover,.dark-mode .filter-btn.active { color:#fff; }
+        .filter-count {
+            display:inline-block; background:rgba(102,126,234,.15);
+            border-radius:50px; padding:1px 7px; font-size:.75rem; margin-left:4px;
+        }
+        .filter-btn.active .filter-count { background:rgba(255,255,255,.25); }
+
+        .designs-section { padding:10px 0 80px; }
+        .designs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; padding:20px 0; }
+
+        .design-card {
+            border-radius:14px; overflow:hidden; background:var(--card-bg,#fff);
+            box-shadow:0 4px 16px rgba(0,0,0,.08); transition:transform .3s,box-shadow .3s;
+            cursor:pointer; position:relative;
+        }
+        .dark-mode .design-card { background:#1e1e2e; box-shadow:0 4px 16px rgba(0,0,0,.3); }
+        .design-card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(102,126,234,.22); }
+        .design-card.hidden { display:none; }
+
+        .design-card .card-thumb { position:relative; width:100%; padding-top:70%; background:#f0f0f5; overflow:hidden; }
+        .dark-mode .design-card .card-thumb { background:#12121e; }
+        .design-card[data-category="pubmat"] .card-thumb { padding-top:100%; }
+
+        .design-card .card-thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+        .design-card:hover .card-thumb img { transform:scale(1.06); }
+
+        .card-thumb .no-img {
+            position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+            justify-content:center; font-size:2.8rem; color:#667eea;
+            background:linear-gradient(135deg,#eef2ff,#f3e8ff); gap:8px;
+        }
+        .dark-mode .card-thumb .no-img { background:linear-gradient(135deg,#1e1e3a,#2a1a3a); }
+
+        .card-overlay {
+            position:absolute; inset:0;
+            background:linear-gradient(135deg,rgba(102,126,234,.85),rgba(118,75,162,.85));
+            display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s;
+        }
+        .design-card:hover .card-overlay { opacity:1; }
+        .card-overlay span {
+            color:#fff; font-weight:700; font-size:.9rem; letter-spacing:1px;
+            border:2px solid rgba(255,255,255,.7); padding:7px 18px; border-radius:50px;
+        }
+        .card-badge {
+            position:absolute; top:10px; left:10px; padding:3px 10px; border-radius:50px;
+            font-size:.7rem; font-weight:700; letter-spacing:.6px; text-transform:uppercase; backdrop-filter:blur(8px);
+        }
+        .badge-pubmat { background:rgba(245,158,11,.85); color:#fff; }
+        .badge-sde    { background:rgba(16,185,129,.85);  color:#fff; }
+
+        /* play icon on SDE cards */
+        .play-icon {
+            position:absolute; bottom:10px; right:10px;
+            background:rgba(0,0,0,.55); color:#fff; border-radius:50%;
+            width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+            font-size:.85rem; backdrop-filter:blur(4px);
+        }
+
+        .empty-state { text-align:center; padding:60px 20px; display:none; grid-column:1/-1; }
+        .empty-state .empty-icon { font-size:3rem; margin-bottom:12px; }
+        .empty-state p { color:#999; }
+
+        /* Lightbox (pubmats only) */
+        .design-modal {
+            display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,.88);
+            backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px;
+        }
+        .design-modal.open { display:flex; }
+        .design-modal-inner {
+            background:#fff; border-radius:20px; max-width:860px; width:100%;
+            max-height:92vh; overflow-y:auto; position:relative;
+            box-shadow:0 30px 80px rgba(0,0,0,.5); animation:slideUpM .3s ease;
+        }
+        .dark-mode .design-modal-inner { background:#1e1e2e; }
+        @keyframes slideUpM { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-close-btn {
+            position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%;
+            border:none; background:rgba(0,0,0,.15); color:#333; font-size:1.1rem; cursor:pointer;
+            display:flex; align-items:center; justify-content:center; z-index:10; transition:background .2s;
+        }
+        .dark-mode .modal-close-btn { background:rgba(255,255,255,.12); color:#eee; }
+        .modal-close-btn:hover { background:rgba(102,126,234,.3); }
+        .modal-img-wrap { width:100%; overflow:hidden; border-radius:20px 20px 0 0; background:#111; }
+        .modal-img-wrap img { width:100%; display:block; max-height:560px; object-fit:contain; }
+        .modal-badge-bar { padding:14px 20px; display:flex; align-items:center; gap:10px; }
+
+        @media(max-width:640px) {
+            .designs-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+        }
+        @media(max-width:360px) { .designs-grid { grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <div class="logo"><a href="index.html" style="text-decoration:none;color:inherit;">JLN</a></div>
+        <ul class="nav-menu">
+            <li><a href="index.html#home"        class="nav-link">Home</a></li>
+            <li><a href="index.html#about"       class="nav-link">About</a></li>
+            <li><a href="index.html#skills"      class="nav-link">Skills</a></li>
+            <li><a href="index.html#credentials" class="nav-link">Credentials</a></li>
+            <li><a href="index.html#projects"    class="nav-link">Projects</a></li>
+            <li><a href="designs.html"           class="nav-link active">Designs</a></li>
+            <li><a href="index.html#testimonials" class="nav-link">Testimonials</a></li>
+            <li><a href="index.html#contact"     class="nav-link">Contact</a></li>
+        </ul>
+        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <span class="toggle-label-light">Dark</span>
+            <span class="toggle-label-dark">Light</span>
+        </button>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+</nav>
+
+<section class="designs-hero">
+    <div class="container">
+        <h1>Designs & Pubmats</h1>
+        <p>A showcase of my creative work and ideas — most of which were created for CCMS-SG, where I serve as a Multimedia Officer in the student government. In less than a year, I've produced over 100 publication materials and counting, along with 25 Reels/SDE projects, with many more on the way.</p>
+        <a href="index.html" class="back-btn">← Back to Portfolio</a>
+    </div>
+</section>
+
+<section class="designs-section">
+    <div class="container">
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All <span class="filter-count" id="count-all">0</span></button>
+            <button class="filter-btn" data-filter="pubmat">Pubmats <span class="filter-count" id="count-pubmat">0</span></button>
+            <button class="filter-btn" data-filter="sde">Reels/SDE <span class="filter-count" id="count-sde">0</span></button>
+        </div>
+
+        <div class="designs-grid" id="designsGrid">
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/1.png" alt="Pubmat 1">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/2.jpg" alt="Pubmat 2">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/3.jpg" alt="Pubmat 3">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/4.jpg" alt="Pubmat 4">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/5.jpg" alt="Pubmat 5">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/6.jpg" alt="Pubmat 6">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/7.jpg" alt="Pubmat 7">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/8.jpg" alt="Pubmat 8">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/9.jpg" alt="Pubmat 9">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/10.jpg" alt="Pubmat 10">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/11.jpg" alt="Pubmat 11">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/12.jpg" alt="Pubmat 12">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/13.jpg" alt="Pubmat 13">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/14.jpg" alt="Pubmat 14">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/15.jpg" alt="Pubmat 15">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/16.jpg" alt="Pubmat 16">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/17.jpg" alt="Pubmat 17">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/18.jpg" alt="Pubmat 18">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/19.jpg" alt="Pubmat 19">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/20.jpg" alt="Pubmat 20">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/21.jpg" alt="Pubmat 21">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/22.jpg" alt="Pubmat 22">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/23.jpg" alt="Pubmat 23">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/24.jpg" alt="Pubmat 24">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/25.jpg" alt="Pubmat 25">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/26.jpg" alt="Pubmat 26">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/27.jpg" alt="Pubmat 27">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/28.jpg" alt="Pubmat 28">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/29.jpg" alt="Pubmat 29">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/30.jpg" alt="Pubmat 30">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/31.jpg" alt="Pubmat 31">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/32.jpg" alt="Pubmat 32">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/33.jpg" alt="Pubmat 33">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/34.jpg" alt="Pubmat 34">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/35.jpg" alt="Pubmat 35">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/36.jpg" alt="Pubmat 36">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/37.jpg" alt="Pubmat 37">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/38.jpg" alt="Pubmat 38">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/39.jpg" alt="Pubmat 39">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/40.jpg" alt="Pubmat 40">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/41.jpg" alt="Pubmat 41">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/42.jpg" alt="Pubmat 42">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/43.jpg" alt="Pubmat 43">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/44.jpg" alt="Pubmat 44">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/45.jpg" alt="Pubmat 45">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/46.jpg" alt="Pubmat 46">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/47.jpg" alt="Pubmat 47">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/48.jpg" alt="Pubmat 48">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/49.jpg" alt="Pubmat 49">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/50.jpg" alt="Pubmat 50">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/51.jpg" alt="Pubmat 51">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/52.jpg" alt="Pubmat 52">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/53.jpg" alt="Pubmat 53">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/54.jpg" alt="Pubmat 54">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/55.jpg" alt="Pubmat 55">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/56.jpg" alt="Pubmat 56">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/57.jpg" alt="Pubmat 57">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/58.jpg" alt="Pubmat 58">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/59.jpg" alt="Pubmat 59">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/60.jpg" alt="Pubmat 60">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/61.jpg" alt="Pubmat 61">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/62.jpg" alt="Pubmat 62">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/63.jpg" alt="Pubmat 63">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/64.jpg" alt="Pubmat 64">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/65.jpg" alt="Pubmat 65">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/66.jpg" alt="Pubmat 66">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/67.jpg" alt="Pubmat 67">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/68.jpg" alt="Pubmat 68">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/69.jpg" alt="Pubmat 69">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/70.jpg" alt="Pubmat 70">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/71.jpg" alt="Pubmat 71">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/72.jpg" alt="Pubmat 72">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/73.jpg" alt="Pubmat 73">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/74.jpg" alt="Pubmat 74">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/75.jpg" alt="Pubmat 75">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/76.jpg" alt="Pubmat 76">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/77.jpg" alt="Pubmat 77">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/78.jpg" alt="Pubmat 78">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/79.jpg" alt="Pubmat 79">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/80.jpg" alt="Pubmat 80">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/81.jpg" alt="Pubmat 81">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/82.jpg" alt="Pubmat 82">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/83.jpg" alt="Pubmat 83">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/84.jpg" alt="Pubmat 84">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/85.jpg" alt="Pubmat 85">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/86.jpg" alt="Pubmat 86">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/87.jpg" alt="Pubmat 87">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/88.jpg" alt="Pubmat 88">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/89.jpg" alt="Pubmat 89">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/90.jpg" alt="Pubmat 90">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/91.jpg" alt="Pubmat 91">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/92.jpg" alt="Pubmat 92">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/93.jpg" alt="Pubmat 93">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/94.jpg" alt="Pubmat 94">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/95.jpg" alt="Pubmat 95">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/96.jpg" alt="Pubmat 96">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/97.jpg" alt="Pubmat 97">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/98.jpg" alt="Pubmat 98">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/99.jpg" alt="Pubmat 99">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card" data-category="pubmat" data-title="" data-desc="" data-link="">
+                <div class="card-thumb">
+                    <img src="img/DESIGN/100.jpg" alt="Pubmat 100">
+                    <div class="card-overlay"><span>View</span></div>
+                    <span class="card-badge badge-pubmat">Pubmat</span>
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1FVspsSkEe/">
+                <div class="card-thumb">
+                    <img src="img/SDE/1.png" alt="SDE 1"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AeMCr5BQc/">
+                <div class="card-thumb">
+                    <img src="img/SDE/2.png" alt="SDE 2"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/16qUKS5bDu/">
+                <div class="card-thumb">
+                    <img src="img/SDE/3.png" alt="SDE 3"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1DuMQohEN2/">
+                <div class="card-thumb">
+                    <img src="img/SDE/4.png" alt="SDE 4"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1GJw8ou1R3/">
+                <div class="card-thumb">
+                    <img src="img/SDE/5.png" alt="SDE 5"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1airZoy5SJ/">
+                <div class="card-thumb">
+                    <img src="img/SDE/6.png" alt="SDE 6"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AbE8K6hCf/">
+                <div class="card-thumb">
+                    <img src="img/SDE/7.png" alt="SDE 7"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1Af4d9XqQt/">
+                <div class="card-thumb">
+                    <img src="img/SDE/8.png" alt="SDE 8"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1Af4d9XqQt/">
+                <div class="card-thumb">
+                    <img src="img/SDE/9.png" alt="SDE 9"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1C38wfnWJW/">
+                <div class="card-thumb">
+                    <img src="img/SDE/10.png" alt="SDE 10"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1YnRhUw5P4/">
+                <div class="card-thumb">
+                    <img src="img/SDE/11.png" alt="SDE 11"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1Ac8u9XNtW/">
+                <div class="card-thumb">
+                    <img src="img/SDE/12.png" alt="SDE 12"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1GeDdTqwmj/">
+                <div class="card-thumb">
+                    <img src="img/SDE/13.png" alt="SDE 13"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/14SzBTjSivi/">
+                <div class="card-thumb">
+                    <img src="img/SDE/14.png" alt="SDE 14"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/18Ghwe9kaL/">
+                <div class="card-thumb">
+                    <img src="img/SDE/15.png" alt="SDE 15"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AtvHJpsiA/">
+                <div class="card-thumb">
+                    <img src="img/SDE/16.png" alt="SDE 16"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AtvHJpsiA/">
+                <div class="card-thumb">
+                    <img src="img/SDE/17.png" alt="SDE 17"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1879uEvyTa/">
+                <div class="card-thumb">
+                    <img src="img/SDE/18.png" alt="SDE 18"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AKAdEzzvq/">
+                <div class="card-thumb">
+                    <img src="img/SDE/19.png" alt="SDE 19"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/r/1GLU73Mtri/">
+                <div class="card-thumb">
+                    <img src="img/SDE/20.png" alt="SDE 20"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1AKt69ZhDB/">
+                <div class="card-thumb">
+                    <img src="img/SDE/21.png" alt="SDE 21"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/r/18EdAB3u8a/">
+                <div class="card-thumb">
+                    <img src="img/SDE/22.png" alt="SDE 22"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/r/17BJ136MDt/">
+                <div class="card-thumb">
+                    <img src="img/SDE/23.png" alt="SDE 23"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1HZ9jq8nLb/">
+                <div class="card-thumb">
+                    <img src="img/SDE/24.png" alt="SDE 24"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+            <div class="design-card sde-direct" data-category="sde" data-link="https://www.facebook.com/share/v/1DcpQ4zY1c/">
+                <div class="card-thumb">
+                    <img src="img/SDE/25.png" alt="SDE 25"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="no-img" style="display:none;">🖥️<span style="font-size:0.75rem;color:#10b981;">No Preview</span></div>
+                    <div class="card-overlay"><span>▶ Watch on FB</span></div>
+
+                </div>
+            </div>
+
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">🔍</div>
+                <p>No designs found in this category.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox (pubmats only) -->
+<div class="design-modal" id="designModal" role="dialog" aria-modal="true">
+    <div class="design-modal-inner">
+        <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close">✕</button>
+        <div class="modal-img-wrap" id="modalImgWrap"></div>
+        <div class="modal-badge-bar">
+            <span class="card-badge badge-pubmat" style="position:static;">Pubmat</span>
+        </div>
+    </div>
+</div>
+
+<script src="darkmode.js"></script>
+<script src="script.js"></script>
+<script>
+/* counts */
+(function updateCounts() {
+    const counts = { all:0, pubmat:0, sde:0 };
+    document.querySelectorAll('.design-card').forEach(c => {
+        counts.all++;
+        if (counts[c.dataset.category] !== undefined) counts[c.dataset.category]++;
+    });
+    ['all','pubmat','sde'].forEach(k => {
+        const el = document.getElementById('count-'+k);
+        if (el) el.textContent = counts[k];
+    });
+})();
+
+/* filter */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        let visible = 0;
+        document.querySelectorAll('.design-card').forEach(card => {
+            const match = filter === 'all' || card.dataset.category === filter;
+            card.classList.toggle('hidden', !match);
+            if (match) visible++;
+        });
+        document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+    });
+});
+
+/* card click handler */
+document.querySelectorAll('.design-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const category = card.dataset.category;
+        const link     = card.dataset.link;
+
+        /* SDE → open FB directly, no modal */
+        if (category === 'sde' && link) {
+            window.open(link, '_blank', 'noopener,noreferrer');
+            return;
+        }
+
+        /* Pubmat → open lightbox */
+        const img = card.querySelector('.card-thumb img');
+        if (img) {
+            document.getElementById('modalImgWrap').innerHTML =
+                `<img src="${img.src}" alt="Pubmat">`;
+            document.getElementById('designModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+    });
+});
+
+/* close lightbox */
+function closeModal() {
+    document.getElementById('designModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+document.getElementById('designModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('designModal')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
